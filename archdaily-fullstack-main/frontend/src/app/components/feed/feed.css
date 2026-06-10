@@ -1,0 +1,14 @@
+.feed-container {
+  display: flex;
+  flex-direction: column;
+  max-width: 450px;
+  margin: 0 auto;
+  padding: 10px;
+}
+
+.carregando {
+  text-align: center;
+  color: #888;
+  font-family: sans-serif;
+  padding: 20px;
+}

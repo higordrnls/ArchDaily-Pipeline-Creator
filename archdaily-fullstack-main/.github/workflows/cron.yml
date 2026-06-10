@@ -1,0 +1,38 @@
+name: Executar Robo ArchDaily Diario
+
+on:
+  schedule:
+    # Roda todos os dias às 09:00 UTC (06:00 da manhã no horário de Brasília)
+    - cron: '0 9 * * *'
+  workflow_dispatch: # Cria um botão no GitHub para você rodar manualmente quando quiser
+
+jobs:
+  build-and-run:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Baixar o codigo do repositorio
+      uses: actions/checkout@v3
+
+    - name: Configurar o Python no servidor
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: Instalar bibliotecas de raspagem
+      run: |
+        python -m pip install --upgrade pip
+        pip install requests beautifulsoup4
+
+    - name: Rodar o Robo Minerador
+      run: |
+        python backend/scraper.py
+
+    - name: Salvar alteracoes e atualizar o JSON no GitHub
+      run: |
+        git config --global user.name 'GitHub Actions Bot'
+        git config --global user.email 'actions@github.com'
+        git add frontend/src/public/noticias.json
+        # Só faz o commit se o arquivo JSON realmente tiver notícias novas
+        git diff --quiet && git diff --staged --quiet || git commit -m "🤖 Pipeline: Notícias atualizadas automaticamente"
+        git push origin main

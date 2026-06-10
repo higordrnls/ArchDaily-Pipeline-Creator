@@ -1,0 +1,10 @@
+<div class="card" *ngIf="noticia">
+  <div class="card-image">
+    <img [src]="noticia.imagem" [alt]="noticia.titulo">
+  </div>
+  <div class="card-content">
+    <span class="tag">{{ noticia.tag }}</span>
+    <h3 class="titulo">{{ noticia.titulo }}</h3>
+    <a [href]="noticia.link" target="_blank" class="link-botao">Leia no ArchDaily ↗</a>
+  </div>
+</div>

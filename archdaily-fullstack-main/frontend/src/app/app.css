@@ -1,0 +1,23 @@
+.meu-header-principal {
+  background: #111;
+  color: #fff;
+  padding: 30px;
+  text-align: center;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  border-bottom: 2px solid #333;
+}
+
+.meu-header-principal h1 {
+  margin: 0;
+  letter-spacing: 4px;
+  font-weight: 300;
+  font-size: 24px;
+}
+
+.meu-header-principal p {
+  margin: 5px 0 0 0;
+  color: #888;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}

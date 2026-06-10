@@ -1,0 +1,52 @@
+.card {
+  display: flex;
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  margin-bottom: 20px;
+  overflow: hidden;
+  font-family: sans-serif;
+  transition: transform 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+}
+
+.card-image img {
+  width: 150px;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-content {
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.tag {
+  font-size: 11px;
+  text-transform: uppercase;
+  color: #757575;
+  letter-spacing: 1px;
+  margin-bottom: 5px;
+}
+
+.titulo {
+  font-size: 16px;
+  margin: 0 0 10px 0;
+  color: #1a1a1a;
+  line-height: 1.4;
+}
+
+.link-botao {
+  font-size: 13px;
+  color: #000000;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.link-botao:hover {
+  text-decoration: underline;
+}

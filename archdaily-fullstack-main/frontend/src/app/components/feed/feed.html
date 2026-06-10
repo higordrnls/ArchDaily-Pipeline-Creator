@@ -1,0 +1,9 @@
+<div class="feed-container">
+  <div *ngFor="let item of noticias">
+    <app-news-card [noticia]="item"></app-news-card>
+  </div>
+
+  <p *ngIf="noticias.length === 0" class="carregando">
+    Procurando as notícias no arquivo... 🤖
+  </p>
+</div>
