@@ -2,6 +2,8 @@
 
 Este é um projeto fullstack moderno que realiza a raspagem de dados (*web scraping*) das notícias mais recentes do portal **ArchDaily** e as exibe em uma interface responsiva, elegante e minimalista desenvolvida em **Angular**.
 
+🔗 **[Acesse o Projeto em Produção Aqui](https://seu-site.vercel.app)** 👤 **Desenvolvido por: [Seu Nome](https://github.com/seu-usuario)**
+
 O grande diferencial técnico deste projeto é a sua arquitetura de **Monorepo Serverless**: em vez de depender de arquivos estáticos gerados por tarefas agendadas ou manter um servidor ativo 24/7, a aplicação utiliza funções serverless em nuvem. Quando o usuário abre o portal, o Angular faz uma requisição para uma API em Python que raspa e entrega os dados em tempo real.
 
 ---
@@ -64,3 +66,5 @@ Backend Builder: Utiliza o runtime @vercel/python mapeando o ponto de entrada em
 Frontend Builder: Utiliza o runtime @vercel/static-build para compilar o Angular e aponta a pasta de saída para o diretório de distribuição (dist/).
 
 Router Rewrites: Encaminha requisições de /api para o motor Python, enquanto delega as demais rotas para a index do ecossistema Angular.
+
+<img width="344" height="706" alt="image" src="https://github.com/user-attachments/assets/005a646b-d4f4-4424-8a4e-cd3c78a9898d" />
