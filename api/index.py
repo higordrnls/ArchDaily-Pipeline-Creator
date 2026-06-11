@@ -103,3 +103,5 @@ class handler(BaseHTTPRequestHandler):
         # Converte a lista do Python para texto JSON e responde
         resultado_final = json.dumps(dados_noticias, ensure_ascii=False, indent=2)
         self.wfile.write(resultado_final.encode('utf-8'))
+    
+app = handler
