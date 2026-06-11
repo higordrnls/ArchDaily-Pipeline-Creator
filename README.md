@@ -55,8 +55,12 @@ archdaily-fullstack/
 └── vercel.json              # Orquestrador global de build, runtimes e reescrita de rotas
 ````
 
-⚙️ Configuração de Infraestrutura (Vercel)
+## ⚙️ Configuração de Infraestrutura (Vercel)
+
 Para reproduzir este deploy mantendo as tecnologias isoladas na raiz do repositório, o arquivo de configuração global vercel.json instrui o servidor com builders explícitos:
+
 Backend Builder: Utiliza o runtime @vercel/python mapeando o ponto de entrada em api/index.py.
+
 Frontend Builder: Utiliza o runtime @vercel/static-build para compilar o Angular e aponta a pasta de saída para o diretório de distribuição (dist/).
+
 Router Rewrites: Encaminha requisições de /api para o motor Python, enquanto delega as demais rotas para a index do ecossistema Angular.
