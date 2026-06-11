@@ -2,7 +2,7 @@
 
 Este é um projeto fullstack moderno que realiza a raspagem de dados (*web scraping*) das notícias mais recentes do portal **ArchDaily** e as exibe em uma interface responsiva, elegante e minimalista desenvolvida em **Angular**.
 
-🔗 **[[Acesse o Projeto em Produção Aqui - (https://arch-daily-pipeline-creator.vercel.app/)]** 👤 **Desenvolvido por: [Higor Dornelas](https://github.com/higordrnls)**
+🔗 **Acesse o Projeto em Produção Aqui - (https://arch-daily-pipeline-creator.vercel.app/)** 👤 **Desenvolvido por: [Higor Dornelas](https://github.com/higordrnls)**
 
 O grande diferencial técnico deste projeto é a sua arquitetura de **Monorepo Serverless**: em vez de depender de arquivos estáticos gerados por tarefas agendadas ou manter um servidor ativo 24/7, a aplicação utiliza funções serverless em nuvem. Quando o usuário abre o portal, o Angular faz uma requisição para uma API em Python que raspa e entrega os dados em tempo real.
 
