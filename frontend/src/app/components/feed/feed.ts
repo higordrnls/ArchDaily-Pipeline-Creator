@@ -16,21 +16,22 @@ export class FeedComponent implements OnInit {
 
   async ngOnInit() {
     try {
-      console.log("🔍 Buscando noticias.json...");
-      const resposta = await fetch('noticias.json');
+      console.log("🔍 Chamando a API viva em Python...");
+      // Mudamos de 'noticias.json' para '/api' para buscar direto do robô em tempo real!
+      const resposta = await fetch('/api');
 
       if (!resposta.ok) {
         throw new Error(`Erro: ${resposta.status}`);
       }
 
       this.noticias = await resposta.json();
-      console.log("📰 Notícias carregadas no componente:", this.noticias);
+      console.log("📰 Notícias atualizadas carregadas com sucesso:", this.noticias);
 
       // Força o HTML a desenhar
       this.cdr.detectChanges();
 
     } catch (erro) {
-      console.error("❌ Erro ao ler o JSON:", erro);
+      console.error("❌ Erro ao ler a API Python:", erro);
     }
   }
 }

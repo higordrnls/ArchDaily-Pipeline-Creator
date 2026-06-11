@@ -1,8 +1,8 @@
 import json
 import requests
 from bs4 import BeautifulSoup
-import os # <-- Adicionamos isso para o Python saber criar pastas
 import time
+from http.server import BaseHTTPRequestHandler
 
 # URL da página inicial do ArchDaily Brasil
 URL = "https://www.archdaily.com.br/br"
@@ -10,7 +10,6 @@ URL = "https://www.archdaily.com.br/br"
 def raspar_noticias():
     print("🤖 Iniciando o robô raspador PROFISSIONAL E INFALÍVEL do ArchDaily...")
     
-    # Fingindo ser um navegador real para evitar bloqueios
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
         "Accept-Language": "pt-BR,pt;q=0.9,en;q=0.8"
@@ -20,7 +19,7 @@ def raspar_noticias():
         resposta = requests.get(URL, headers=headers)
         if resposta.status_code != 200:
             print(f"❌ Erro ao acessar o site: Status {resposta.status_code}")
-            return
+            return []
             
         soup = BeautifulSoup(resposta.text, 'html.parser')
         noticias_raspadas = []
@@ -50,31 +49,26 @@ def raspar_noticias():
 
             link_imagem = None
 
-            # --- ESTRATÉGIA MÁGICA: Entra na página interna do post para pegar a foto oficial ---
+            # --- Entrada na página interna do post ---
             if link != "#":
                 try:
-                    # Dá uma micro pausa de 0.5 segundos para o site não bloquear o robô
-                    time.sleep(0.5)
-                    
+                    time.sleep(0.3) # Micro pausa estratégica
                     resposta_interna = requests.get(link, headers=headers)
                     if resposta_interna.status_code == 200:
                         soup_interno = BeautifulSoup(resposta_interna.text, 'html.parser')
                         
-                        # Procria a imagem de destaque principal do artigo interno (geralmente fica numa tag meta ou imagem grande)
                         meta_img = soup_interno.find("meta", property="og:image")
                         if meta_img and meta_img.get('content'):
                             link_imagem = meta_img.get('content')
                         else:
-                            # Se não achar a meta tag, pega a primeira imagem grande do artigo
                             img_interna = soup_interno.find('picture') or soup_interno.find('div', class_='article-header-image')
                             if img_interna:
                                 img_tag = img_interna.find('img')
                                 if img_tag:
                                     link_imagem = img_tag.get('src') or img_tag.get('data-src')
                 except Exception as e_interno:
-                    print(f"⚠️ Não consegui acessar a página interna da notícia {index+1}: {e_interno}")
+                    print(f"⚠️ Erro na página interna {index+1}: {e_interno}")
 
-            # Se tudo falhar ou não achar imagem interna, usa o backup lindo do Unsplash (com IDs diferentes)
             if not link_imagem or "logo" in link_imagem.lower() or link_imagem.startswith('data:image'):
                 link_imagem = f"https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=500&sig={index + 20}"
 
@@ -85,33 +79,27 @@ def raspar_noticias():
                 "link": link
             }
             noticias_raspadas.append(noticia)
-            print(f"✅ [{index+1}] Coletado com SUCESSO REAL: {titulo[:45]}...")
+            print(f"✅ [{index+1}] Coletado: {titulo[:30]}...")
 
-       # -----------------------------------------------------------------
-        # PASTA PÚBLICA DO ANGULAR (Caminho Relativo Automático):
-        # -----------------------------------------------------------------
-        # os.path.dirname(__file__) pega a pasta atual onde o scraper.py está (backend).
-        # ".." volta uma pasta (para a raiz) e depois entra em frontend/src/public.
-        base_dir = os.path.dirname(__file__)
-        pasta_publica = os.path.abspath(os.path.join(base_dir, "..", "frontend", "src", "public"))
-        pasta_principal_angular = os.path.abspath(os.path.join(base_dir, "..", "frontend"))
-        
-        if not os.path.exists(pasta_principal_angular):
-            print("❌ Alerta: Não encontrei a pasta principal do Angular no caminho especificado!")
-            
-        os.makedirs(pasta_publica, exist_ok=True)
-
-        # Caminho final do arquivo json
-        caminho_final = os.path.join(pasta_publica, "noticias.json")
-
-        # Salva o arquivo de verdade no lugar certinho
-        with open(caminho_final, 'w', encoding='utf-8') as f:
-            json.dump(noticias_raspadas, f, ensure_ascii=False, indent=2)
-            
-        print(f"💾 Sucesso absoluto! Dados entregues na pasta pública do Angular!")
+        return noticias_raspadas
 
     except Exception as e:
         print(f"💥 Erro na execução: {e}")
+        return []
 
-if __name__ == "__main__":
-    raspar_noticias()
+# --- ESSA É A ESTRUTURA QUE A VERCEL EXIGE PARA CONECTAR COM O PYTHON ---
+class handler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        # Executa o raspador e pega a lista de notícias atualizada
+        dados_noticias = raspar_noticias()
+        
+        # Envia a resposta de sucesso para o navegador/Angular
+        self.send_response(200)
+        self.send_header('Content-type', 'application/json')
+        # Habilita o CORS para o Angular conseguir ler a API sem bloqueios de segurança
+        self.send_header('Access-Control-Allow-Origin', '*')
+        self.end_headers()
+        
+        # Converte a lista do Python para texto JSON e responde
+        resultado_final = json.dumps(dados_noticias, ensure_ascii=False, indent=2)
+        self.wfile.write(resultado_final.encode('utf-8'))
