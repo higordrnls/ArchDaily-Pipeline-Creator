@@ -41,6 +41,7 @@ no ArchDaily
 
 ## 📁 Estrutura do Repositório (Monorepo)
 
+```text
 archdaily-fullstack/
 ├── api/
 │   ├── index.py             # API Backend Serverless em Python (Web Scraper Vivo)
@@ -52,6 +53,7 @@ archdaily-fullstack/
 │   ├── package.json         # Scripts de build e dependências do ecossistema Angular
 │   └── angular.json         # Configurações de compilação do framework
 └── vercel.json              # Orquestrador global de build, runtimes e reescrita de rotas
+````
 
 ⚙️ Configuração de Infraestrutura (Vercel)
 Para reproduzir este deploy mantendo as tecnologias isoladas na raiz do repositório, o arquivo de configuração global vercel.json instrui o servidor com builders explícitos:
